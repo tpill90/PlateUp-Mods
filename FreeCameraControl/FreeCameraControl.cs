@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
 using static FreeCameraControl.LoggingUtils;
+using UnityEngine.InputSystem.Users;
 
 #endregion
 
@@ -53,9 +54,9 @@ namespace FreeCameraControl
 
             // Centers the camera on the current player
             _positionCameraOnPlayerAction = new InputAction(nameof(PositionCameraOnPlayer), InputActionType.Button, "<Gamepad>/rightShoulder/");
-            _positionCameraOnPlayerAction.performed += context =>
+            _positionCameraOnPlayerAction.performed += (InputAction.CallbackContext context) =>
             {
-                PositionCameraOnPlayer();
+                PositionCameraOnPlayer(context);
             };
             _positionCameraOnPlayerAction.Enable();
 
@@ -104,6 +105,8 @@ namespace FreeCameraControl
             var originalPosition = mainCamera.transform.position;
             var originalFov = mainCamera.fieldOfView;
 
+            LogInfo($"Original camera position: {originalPosition} Original FOV: {originalFov}");
+
             // Re-enabling our control of the camera
             Camera.main.GetComponent<CinemachineBrain>().enabled = false;
 
@@ -122,7 +125,7 @@ namespace FreeCameraControl
             {
                 // Finding the existing PlateUp action that handles player movement, so we can disable it later
                 _movePlayerActions = InputSystem.ListEnabledActions().Where(e => e.name == "Movement").ToList();
-                foreach (var action in _movePlayerActions)
+                foreach (InputAction action in _movePlayerActions)
                 {
                     action.Disable();
                 }
@@ -158,50 +161,45 @@ namespace FreeCameraControl
             Camera.main.transform.position = cameraPosition;
         }
 
-        private void PositionCameraOnPlayer()
+        private void PositionCameraOnPlayer(InputAction.CallbackContext context)
         {
             if (!_freeMoveCameraEnabled)
             {
                 return;
             }
 
+            InputDevice device = context.control.device;
 
-            //PlayerInfo player
+            var inputUser = InputUser.FindUserPairedToDevice(device).Value;
+            var currentPlayer = Players.Main.All().First(e => e.Index == inputUser.index);
 
-            // Find local player ID
-            int LocalID = 0;
-
-            foreach (PlayerInfo info in Players.Main.All())
+            // Disallowing online players to control our camera
+            if (!currentPlayer.IsLocalUser)
             {
-                if (info.IsLocalUser)
-                {
-                    LocalID = info.ID;
-                    LogInfo($"Player {info.ID} {info.Name}");
-                    break;
-                }
+                return;
             }
 
             PlayerView[] PlayerViewArray = Object.FindObjectsOfType<PlayerView>();
 
             foreach (PlayerView view in PlayerViewArray)
             {
-                int ID = ((PlayerView.ViewData)typeof(PlayerView).GetField("Data", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view)).PlayerID;
+                int id = ((PlayerView.ViewData)typeof(PlayerView).GetField("Data", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view)).PlayerID;
 
-                if (ID != LocalID)
+                if (id != currentPlayer.ID)
                 {
                     continue;
                 }
 
-                Vector3 ViewPosition = view.transform.position;
+                Vector3 viewPosition = view.transform.position;
 
                 // default 35.82595
-                float Height = 35.82595f;
-                ViewPosition.y = Height;
+                float height = 35.82595f;
+                viewPosition.y = height;
 
-                float DeltaZ = 30f;
+                float deltaZ = 30f;
 
-                Camera.main.transform.position = new Vector3(ViewPosition.x, Height, ViewPosition.z - DeltaZ);
-                LogInfo($"{nameof(PositionCameraOnPlayer)} - New Camera Position: {Camera.main.transform.position}");
+                Camera.main.transform.position = new Vector3(viewPosition.x, height, viewPosition.z - deltaZ);
+                LogInfo($"Positioning camera on player - {currentPlayer.Name} - New Camera Position: {Camera.main.transform.position}");
             }
         }
     }

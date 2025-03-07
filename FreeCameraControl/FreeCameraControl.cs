@@ -13,6 +13,7 @@ using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
 using static FreeCameraControl.LoggingUtils;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.InputSystem.Utilities;
 
 #endregion
 
@@ -20,11 +21,10 @@ namespace FreeCameraControl
 {
     //TODO Resetting the camera doesn't always work
     //TODO camera should proibably be reset when the scene changes
-    //TODO make it so only the player who clicked the stick will be able to move the camera
     [UsedImplicitly]
     public class CameraPlus : GenericSystemBase, IModSystem
     {
-        private InputAction _toggleStaticCameraAction;
+        private InputAction _toggleFreeMoveCameraAction;
         private InputAction _positionCameraOnPlayerAction;
         private InputAction _resetCameraPositionAction;
         private InputAction _zoomAction;
@@ -36,6 +36,9 @@ namespace FreeCameraControl
         // This is the action used by Plate Up to move the characters
         private List<InputAction> _movePlayerActions;
 
+        //TODO rename + comment
+        private Gamepad _gamepad;
+
         protected override void Initialise()
         {
             LogWarning($"v{ModInfo.MOD_VERSION} in use!");
@@ -45,12 +48,12 @@ namespace FreeCameraControl
         private void InitKeybindings()
         {
             // Toggle static camera - Resets camera back to default
-            _toggleStaticCameraAction = new InputAction(nameof(ToggleFreeMoveCamera), InputActionType.Button, "<Gamepad>/rightStickPress/");
-            _toggleStaticCameraAction.performed += context =>
+            _toggleFreeMoveCameraAction = new InputAction(nameof(ToggleFreeMoveCamera), InputActionType.Button, "<Gamepad>/rightStickPress/");
+            _toggleFreeMoveCameraAction.performed += context =>
             {
-                ToggleFreeMoveCamera();
+                ToggleFreeMoveCamera(context);
             };
-            _toggleStaticCameraAction.Enable();
+            _toggleFreeMoveCameraAction.Enable();
 
             // Centers the camera on the current player
             _positionCameraOnPlayerAction = new InputAction(nameof(PositionCameraOnPlayer), InputActionType.Button, "<Gamepad>/rightShoulder/");
@@ -64,7 +67,7 @@ namespace FreeCameraControl
             _resetCameraPositionAction = new InputAction("Reset Camera", InputActionType.Button, "<Gamepad>/leftShoulder/");
             _resetCameraPositionAction.performed += context =>
             {
-                ResetCamera();
+                ResetCamera(context);
             };
             _resetCameraPositionAction.Enable();
 
@@ -88,12 +91,61 @@ namespace FreeCameraControl
             UpdatePan();
         }
 
+        private void ToggleFreeMoveCamera(InputAction.CallbackContext context)
+        {
+            // Only allowing the person who unlocked the camera to re-lock the camera
+            if (_freeMoveCameraEnabled && context.control.device.deviceId != _gamepad.deviceId)
+            {
+                return;
+            }
+
+            // Need to disable this so we can control the camera ourselves
+            Camera.main.GetComponent<CinemachineBrain>().enabled = false;
+
+            _freeMoveCameraEnabled = !_freeMoveCameraEnabled;
+
+            if (_freeMoveCameraEnabled)
+            {
+                // Find and save the gamepad for the user who triggered the event.  Will use it later so only they can move the camera.
+                _gamepad = Gamepad.all.FirstOrDefault(e => e.deviceId == context.control.device.deviceId);
+
+                // Finding and saving the existing PlateUp action that handles player movement, so we can re-enable it later.
+                _movePlayerActions = InputSystem.ListEnabledActions().Where(e => e.name == "Movement").ToList();
+
+                //TODO comment and refactor
+                foreach (InputAction action in _movePlayerActions)
+                {
+                    var deviceIds = action.actionMap.devices.Value.Select(e => e.deviceId).ToList();
+                    if (deviceIds.Contains(context.control.device.deviceId))
+                    {
+                        // Disabling movement only for the player that toggled the camera
+                        action.Disable();
+                    }
+                }
+            }
+            else
+            {
+                // Reset for next time this is triggered
+                _gamepad = null;
+                foreach (var action in _movePlayerActions)
+                {
+                    action.Enable();
+                }
+            }
+        }
+
         /// <summary>
-        /// Resets the camera position back to the initial starting point
+        /// Resets the camera position back to the initial starting point.
         /// </summary>
-        private void ResetCamera()
+        private void ResetCamera(InputAction.CallbackContext context)
         {
             if (!_freeMoveCameraEnabled)
+            {
+                return;
+            }
+
+            // Only allowing the person who unlocked the camera to move it
+            if (context.control.device.deviceId != _gamepad.deviceId)
             {
                 return;
             }
@@ -114,36 +166,10 @@ namespace FreeCameraControl
             mainCamera.fieldOfView = originalFov;
         }
 
-        private void ToggleFreeMoveCamera()
-        {
-            // Need to disable this so we can control the camera ourselves
-            Camera.main.GetComponent<CinemachineBrain>().enabled = false;
-
-            _freeMoveCameraEnabled = !_freeMoveCameraEnabled;
-
-            if (_freeMoveCameraEnabled)
-            {
-                // Finding the existing PlateUp action that handles player movement, so we can disable it later
-                _movePlayerActions = InputSystem.ListEnabledActions().Where(e => e.name == "Movement").ToList();
-                foreach (InputAction action in _movePlayerActions)
-                {
-                    action.Disable();
-                }
-            }
-            else
-            {
-                foreach (var action in _movePlayerActions)
-                {
-                    action.Enable();
-                }
-            }
-        }
-
         private void UpdateZoom()
         {
             // Inverting controls so that pushing up is zoom in
-            float controllerScrollInput = _zoomAction.ReadValue<float>() * -1;
-
+            float controllerScrollInput = _gamepad.rightStick.ReadValue().y * -1;
             var newFov = Camera.main.fieldOfView;
             newFov += controllerScrollInput * .10f;
 
@@ -152,7 +178,7 @@ namespace FreeCameraControl
 
         private void UpdatePan()
         {
-            var controllerInput = _panAction.ReadValue<Vector2>();
+            var controllerInput = _gamepad.leftStick.ReadValue();
 
             var cameraPosition = Camera.main.transform.position;
             cameraPosition.x += controllerInput.x * .10f;
@@ -164,6 +190,12 @@ namespace FreeCameraControl
         private void PositionCameraOnPlayer(InputAction.CallbackContext context)
         {
             if (!_freeMoveCameraEnabled)
+            {
+                return;
+            }
+
+            // Only allowing the person who unlocked the camera to move it
+            if (context.control.device.deviceId != _gamepad.deviceId)
             {
                 return;
             }

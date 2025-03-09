@@ -13,6 +13,7 @@
 
         <!-- TODO move this up into Environment.props -->
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
         <ModDeployPath>$(WorshopDir)\$(WorkshopId)</ModDeployPath>
     </PropertyGroup>
 

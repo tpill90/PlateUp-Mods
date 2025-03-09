@@ -19,7 +19,6 @@ using UnityEngine.InputSystem.Utilities;
 
 namespace FreeCameraControl
 {
-    //TODO Resetting the camera doesn't always work
     //TODO camera should proibably be reset when the scene changes
     [UsedImplicitly]
     public class CameraPlus : GenericSystemBase, IModSystem
@@ -112,7 +111,7 @@ namespace FreeCameraControl
                 // Finding and saving the existing PlateUp action that handles player movement, so we can re-enable it later.
                 _movePlayerActions = InputSystem.ListEnabledActions().Where(e => e.name == "Movement").ToList();
 
-                //TODO comment and refactor
+                //TODO comment and refactor.  Only need to find the one action for the one player
                 foreach (InputAction action in _movePlayerActions)
                 {
                     var deviceIds = action.actionMap.devices.Value.Select(e => e.deviceId).ToList();
@@ -150,20 +149,21 @@ namespace FreeCameraControl
                 return;
             }
 
-            var mainCamera = Camera.main;
-
             // Getting the default camera position by disabling manual control of the camera, which will snap it back to the original position
-            Camera.main.GetComponent<CinemachineBrain>().enabled = true;
-            var originalPosition = mainCamera.transform.position;
-            var originalFov = mainCamera.fieldOfView;
+            var cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+            cinemachineBrain.enabled = true;
+            cinemachineBrain.ManualUpdate();
+
+            var originalPosition = Camera.main.transform.position;
+            var originalFov = Camera.main.fieldOfView;
 
             LogInfo($"Original camera position: {originalPosition} Original FOV: {originalFov}");
 
             // Re-enabling our control of the camera
-            Camera.main.GetComponent<CinemachineBrain>().enabled = false;
+            cinemachineBrain.enabled = false;
 
-            mainCamera.transform.position = originalPosition;
-            mainCamera.fieldOfView = originalFov;
+            Camera.main.transform.position = originalPosition;
+            Camera.main.fieldOfView = originalFov;
         }
 
         private void UpdateZoom()

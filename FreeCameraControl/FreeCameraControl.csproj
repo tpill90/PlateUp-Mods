@@ -9,10 +9,11 @@
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
 
         <ModName>FreeCameraControl</ModName>
+        <WorkshopId>3437341535</WorkshopId>
 
         <!-- TODO move this up into Environment.props -->
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <ModDeployPath>$(PlateUpInstallDir)\PlateUp\Mods\$(ModName)\content</ModDeployPath>
+        <ModDeployPath>$(WorshopDir)\$(WorkshopId)</ModDeployPath>
     </PropertyGroup>
 
     <!-- Launches the game when running with or without debugger. -->

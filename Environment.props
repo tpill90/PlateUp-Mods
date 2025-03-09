@@ -4,6 +4,8 @@
         <!-- This needs to be changed to your Plateup install directory -->
         <PlateUpInstallDir>C:\Program Files (x86)\Steam\steamapps\common\PlateUp</PlateUpInstallDir>
 
+        <WorshopDir>C:\Program Files (x86)\Steam\steamapps\workshop\content\1599600</WorshopDir>
+
         <!--This tells the compiler where to look for assemblies. Don't change it.-->
         <Managed>$(PlateUpInstallDir)\PlateUp\PlateUp_Data\Managed</Managed>
         <AssemblySearchPaths>$(AssemblySearchPaths);$(Managed);</AssemblySearchPaths>

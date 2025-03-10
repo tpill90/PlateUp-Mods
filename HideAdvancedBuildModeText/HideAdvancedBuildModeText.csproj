@@ -12,10 +12,6 @@
         <!--TODO change -->
         <WorkshopId>111111111</WorkshopId>
 
-        <!-- TODO move this up into Environment.props -->
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-
         <!--TODO enable when mod has been uploaded.  Seems to not work for local dev-->
         <!--<ModDeployPath>$(WorshopDir)\$(WorkshopId)</ModDeployPath>-->
         <ModDeployPath>$(PlateUpInstallDir)\PlateUp\Mods\$(ModName)\content</ModDeployPath>
@@ -39,16 +35,17 @@
 
     <!-- References -->
     <ItemGroup>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
+
         <Reference Include="Cinemachine" />
         <Reference Include="Harmony">
             <HintPath>$(WorshopDir)\2898033283\0Harmony.dll</HintPath>
         </Reference>
-        <Reference Include="Kitchen.Common" />
-        <Reference Include="Kitchen.RestaurantMode">
-            <HintPath>C:\Users\Tim\Dropbox\Programming\Gaming\PlateUp-Mods\publicized_assemblies\Kitchen.RestaurantMode.dll</HintPath>
-        </Reference>
-        <Reference Include="KitchenMode" />
-        <Reference Include="KitchenMods" />
+        <Reference Include="Kitchen.Common" Publicize="true" />
+        <Reference Include="Kitchen.GameData" Publicize="true" />
+        <Reference Include="Kitchen.RestaurantMode" Publicize="true" />
+        <Reference Include="KitchenMode" Publicize="true" />
+        <Reference Include="KitchenMods" Publicize="true" />
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />

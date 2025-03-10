@@ -11,9 +11,7 @@
         <ModName>FreeCameraControl</ModName>
         <WorkshopId>3437341535</WorkshopId>
 
-        <!-- TODO move this up into Environment.props -->
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+
         <ModDeployPath>$(WorshopDir)\$(WorkshopId)</ModDeployPath>
     </PropertyGroup>
 
@@ -35,10 +33,12 @@
 
     <!-- References -->
     <ItemGroup>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
+
         <Reference Include="Cinemachine" />
-        <Reference Include="Kitchen.Common" />
-        <Reference Include="KitchenMode" />
-        <Reference Include="KitchenMods" />
+        <Reference Include="Kitchen.Common" Publicize="true"/>
+        <Reference Include="KitchenMode" Publicize="true"/>
+        <Reference Include="KitchenMods" Publicize="true"/>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />

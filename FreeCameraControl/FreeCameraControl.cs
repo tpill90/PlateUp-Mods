@@ -13,7 +13,6 @@ using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
 using static FreeCameraControl.LoggingUtils;
 using UnityEngine.InputSystem.Users;
-using UnityEngine.InputSystem.Utilities;
 
 #endregion
 
@@ -38,7 +37,7 @@ namespace FreeCameraControl
         //TODO rename + comment
         private Gamepad _gamepad;
 
-        protected override void Initialise()
+        public override void Initialise()
         {
             LogWarning($"v{ModInfo.MOD_VERSION} in use!");
             InitKeybindings();
@@ -203,7 +202,7 @@ namespace FreeCameraControl
             InputDevice device = context.control.device;
 
             var inputUser = InputUser.FindUserPairedToDevice(device).Value;
-            var currentPlayer = Players.Main.All().First(e => e.Index == inputUser.index);
+            var currentPlayer = Kitchen.Players.Main.All().First(e => e.Index == inputUser.index);
 
             // Disallowing online players to control our camera
             if (!currentPlayer.IsLocalUser)

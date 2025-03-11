@@ -39,7 +39,7 @@ How to setup the development enviroment for this project:
 
 # Publishing
 
-Update `MOD_VERSION` in `AssemblyInfo.cs` and build a new version.  Then run the Plate Up! mod uploader that is in the `C:\Program Files (x86)\Steam\steamapps\common\PlateUp\PlateUp\PlateUp_Data` directory.
+Update `MOD_VERSION` in `AssemblyInfo.cs` and build a new version.  Then run the Plate Up! mod uploader that is in the `C:\Program Files (x86)\Steam\steamapps\common\PlateUp\PlateUp\PlateUp_Data` directory.  Point the mod uploader to the `workshop` dir found in each mod's source code folder.
 
 * How to format the Workshop description : [formatting help](https://steamcommunity.com/comment/Guide/formattinghelp)
 * Markdown to Steam converter : [steamdown](https://steamdown.vercel.app/)

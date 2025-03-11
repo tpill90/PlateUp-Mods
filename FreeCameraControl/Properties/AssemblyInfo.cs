@@ -15,6 +15,6 @@ namespace FreeCameraControl.Properties
     public static class ModInfo
     {
         public const string MOD_NAME = "FreeCameraControl";
-        public const string MOD_VERSION = "1.2.0.0";
+        public const string MOD_VERSION = "1.3.0.0";
     }
 }

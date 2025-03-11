@@ -31,8 +31,8 @@ namespace FreeCameraControl
         // When this is set to true, the user will be able to move the camera
         private bool _freeMoveCameraEnabled;
 
-        // This is the action used by Plate Up to move the characters
-        private List<InputAction> _movePlayerActions;
+        // This is the action used by Plate Up to move the characters, which we will disable/re-enable later.
+        private InputAction _movePlayerAction;
 
         //TODO rename + comment
         private Gamepad _gamepad;
@@ -108,27 +108,23 @@ namespace FreeCameraControl
                 _gamepad = Gamepad.all.FirstOrDefault(e => e.deviceId == context.control.device.deviceId);
 
                 // Finding and saving the existing PlateUp action that handles player movement, so we can re-enable it later.
-                _movePlayerActions = InputSystem.ListEnabledActions().Where(e => e.name == "Movement").ToList();
+                var deviceIdsPerAction = InputSystem.ListEnabledActions()
+                                                    .Where(e => e.name == "Movement")
+                                                    .Select(e => new
+                                                    {
+                                                        Action = e,
+                                                        DeviceIds = e.actionMap.devices.Value.Select(e2 => e2.deviceId).ToList()
+                                                    });
 
-                //TODO comment and refactor.  Only need to find the one action for the one player
-                foreach (InputAction action in _movePlayerActions)
-                {
-                    var deviceIds = action.actionMap.devices.Value.Select(e => e.deviceId).ToList();
-                    if (deviceIds.Contains(context.control.device.deviceId))
-                    {
-                        // Disabling movement only for the player that toggled the camera
-                        action.Disable();
-                    }
-                }
+                // Disabling movement only for the player that toggled the camera
+                _movePlayerAction = deviceIdsPerAction.First(e => e.DeviceIds.Contains(context.control.device.deviceId)).Action;
+                _movePlayerAction.Disable();
             }
             else
             {
                 // Reset for next time this is triggered
                 _gamepad = null;
-                foreach (var action in _movePlayerActions)
-                {
-                    action.Enable();
-                }
+                _movePlayerAction.Enable();
             }
         }
 
@@ -193,13 +189,12 @@ namespace FreeCameraControl
                 return;
             }
 
+            InputDevice device = context.control.device;
             // Only allowing the person who unlocked the camera to move it
-            if (context.control.device.deviceId != _gamepad.deviceId)
+            if (device.deviceId != _gamepad.deviceId)
             {
                 return;
             }
-
-            InputDevice device = context.control.device;
 
             var inputUser = InputUser.FindUserPairedToDevice(device).Value;
             var currentPlayer = Kitchen.Players.Main.All().First(e => e.Index == inputUser.index);

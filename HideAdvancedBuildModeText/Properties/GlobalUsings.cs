@@ -9,3 +9,4 @@ global using Unity.Entities;
 global using UnityEngine;
 global using static HideAdvancedBuildModeText.LoggingUtils;
 global using System.Linq;
+global using PreferenceSystem;

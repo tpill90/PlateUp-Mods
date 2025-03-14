@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Environment.props = Environment.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HideAdvancedBuildModeText", "HideAdvancedBuildModeText\HideAdvancedBuildModeText.csproj", "{7757BF3F-85CD-34B0-D07D-EE72806D461F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterCraneModeUI", "DeclutterCraneModeUI\DeclutterCraneModeUI.csproj", "{7757BF3F-85CD-34B0-D07D-EE72806D461F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

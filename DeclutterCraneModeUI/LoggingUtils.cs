@@ -1,4 +1,4 @@
-﻿namespace HideAdvancedBuildModeText
+﻿namespace DeclutterCraneModeUI
 {
     public static class LoggingUtils
     {

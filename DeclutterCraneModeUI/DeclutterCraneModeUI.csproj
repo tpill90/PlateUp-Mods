@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
-        <ModName>HideAdvancedBuildModeText</ModName>
+        <ModName>DeclutterCraneModeUI</ModName>
         <WorkshopId>3443928799</WorkshopId>
     </PropertyGroup>
 

@@ -3,10 +3,10 @@
 //TODO create video and screenshots
 //TODO create an icon for the mod, the one that shows up in search.
 
-namespace HideAdvancedBuildModeText
+namespace DeclutterCraneModeUI
 {
     [UsedImplicitly]
-    public class HideAdvancedBuildModeText : GenericSystemBase, IModSystem
+    public class DeclutterCraneModeUI : GenericSystemBase, IModSystem
     {
         private readonly List<string> _uiElementPaths = new List<string>
         {

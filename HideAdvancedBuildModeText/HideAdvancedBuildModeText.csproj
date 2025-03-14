@@ -11,7 +11,7 @@
         <LangVersion>latest</LangVersion>
 
         <ModName>HideAdvancedBuildModeText</ModName>
-        <!-- <WorkshopId>111111111</WorkshopId> -->
+        <WorkshopId>3443928799</WorkshopId>
 
         <!-- TODO comment these properties and move them into Environment.props -->
         <WorkshopDeployPath>$(WorshopDir)\$(WorkshopId)</WorkshopDeployPath>

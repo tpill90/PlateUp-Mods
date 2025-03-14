@@ -8,12 +8,11 @@ indent_size = 4
 # .NET formatting rules.  See https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/formatting-rules
 # Resharper Rules. See https://www.jetbrains.com/help/resharper/EditorConfig_Index.html
 [*.cs]
-# TODO change this to tab in all projects.
 indent_style = space
 indent_size = 4
 
 # -----  Resharper Rules -----
-# https://www.jetbrains.com/help/resharper/EditorConfig_CSHARP_CSharpIndentStylePageSchema.html#resharper_csharp_align_linq_query
+# https://www.jetbrains.com/help/resharper/EditorConfig_CSHARP_CSharpIndentStylePageSchema.html
 align_linq_query = true
 align_multiline_calls_chain = true
 # Won't force add blank lines after block statements
@@ -22,6 +21,7 @@ csharp_prefer_braces = true
 csharp_space_after_cast = false
 indent_preprocessor_region = do_not_change
 space_between_attribute_sections = false
+resharper_use_collection_expression_highlighting=none
 
 
 # CA1002: Do not expose generic lists

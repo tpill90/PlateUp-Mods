@@ -1,4 +1,3 @@
-
 global using HideAdvancedBuildModeText.Properties;
 global using JetBrains.Annotations;
 global using Kitchen;
@@ -9,3 +8,4 @@ global using System.Collections.Generic;
 global using Unity.Entities;
 global using UnityEngine;
 global using static HideAdvancedBuildModeText.LoggingUtils;
+global using System.Linq;

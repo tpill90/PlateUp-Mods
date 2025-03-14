@@ -1,9 +1,4 @@
-﻿//TODO consider renaming this
-//TODO write docs
-//TODO create video and screenshots
-//TODO create an icon for the mod, the one that shows up in search.
-
-namespace DeclutterCraneModeUI
+﻿namespace DeclutterCraneModeUI
 {
     [UsedImplicitly]
     public class DeclutterCraneModeUI : GenericSystemBase, IModSystem

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Reflection;
-using HideAdvancedBuildModeText.Properties;
-using UnityEngine;
-
-namespace HideAdvancedBuildModeText
+﻿namespace HideAdvancedBuildModeText
 {
     public static class LoggingUtils
     {

@@ -1,51 +1,45 @@
-﻿#region usings
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Cinemachine;
-using HideAdvancedBuildModeText.Properties;
-using JetBrains.Annotations;
-using Kitchen;
-using KitchenMods;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
-using Object = UnityEngine.Object;
-using static HideAdvancedBuildModeText.LoggingUtils;
-using HarmonyLib;
-
-#endregion
-
+﻿//TODO consider renaming this
 namespace HideAdvancedBuildModeText
 {
     [UsedImplicitly]
     public class HideAdvancedBuildModeText : GenericSystemBase, IModSystem
     {
-        private static readonly Harmony m_harmony = new Harmony(nameof(HideAdvancedBuildModeText));
-
-        protected override void Initialise()
+        public override void Initialise()
         {
             LogWarning($"v{ModInfo.MOD_VERSION} in use!");
 
-            m_harmony.PatchAll(Assembly.GetExecutingAssembly());
+            base.Initialise();
         }
 
+        //TODO is the performance OK on this?
         protected override void OnUpdate()
         {
+            var cranePlayerQuery = GetEntityQuery((ComponentType)typeof(CIsCraneMode));
+            var playersInCraneMode = !cranePlayerQuery.IsEmpty;
 
-        }
-    }
-
-    [HarmonyPatch]
-    public static class Patches
-    {
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(CreateCraneExplainer), nameof(CreateCraneExplainer.OnUpdate))]
-        public static bool HideBuildText()
-        {
-            LogInfo("Here");
-            return false;
+            LogInfo($"Players in crane mode : {playersInCraneMode}");
+            var objectPaths = new List<string>
+            {
+                "/Camera/UI Camera/UI Container/Day Display(Clone)",
+                "/Camera/UI Camera/UI Container/Time Display(Clone)",
+                "/Camera/UI Camera/UI Container/Start Day Display(Clone)/Warning",
+                "/Camera/UI Camera/UI Container/Parameters Display(Clone)"
+            };
+            foreach (var path in objectPaths)
+            {
+                var obj = GameObject.Find(path);
+                if (obj != null)
+                {
+                    if (playersInCraneMode)
+                    {
+                        obj.SetActive(false);
+                    }
+                    else
+                    {
+                        obj.SetActive(true);
+                    }
+                }
+            }
         }
     }
 }

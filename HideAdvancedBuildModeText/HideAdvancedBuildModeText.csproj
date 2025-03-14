@@ -7,14 +7,16 @@
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
+        <!-- TODO move this into environment.props -->
+        <LangVersion>latest</LangVersion>
 
         <ModName>HideAdvancedBuildModeText</ModName>
-        <!--TODO change -->
-        <WorkshopId>111111111</WorkshopId>
+        <!-- <WorkshopId>111111111</WorkshopId> -->
 
-        <!--TODO enable when mod has been uploaded.  Seems to not work for local dev-->
-        <!--<ModDeployPath>$(WorshopDir)\$(WorkshopId)</ModDeployPath>-->
-        <ModDeployPath>$(PlateUpInstallDir)\PlateUp\Mods\$(ModName)\content</ModDeployPath>
+        <!-- TODO comment these properties and move them into Environment.props -->
+        <WorkshopDeployPath>$(WorshopDir)\$(WorkshopId)</WorkshopDeployPath>
+        <TestModDeployPath>$(PlateUpInstallDir)\PlateUp\Mods\$(ModName)\content</TestModDeployPath>
+        <ReleaseAssetPath>$(MSBuildProjectDirectory)\workshop\content </ReleaseAssetPath>
     </PropertyGroup>
 
     <!-- Launches the game when running with or without debugger. -->
@@ -23,14 +25,22 @@
         <StartProgram>$(PlateUpInstallDir)\PlateUp\PlateUp.exe</StartProgram>
     </PropertyGroup>
 
-    <!-- Automatically copies the test build over to the mods folder -->
+    <!-- Automatically copies the test build over to the correct folder, depeneding on whether the mod has been published to the workshop -->
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModDeployPath)" />
+
+        <!-- Copies to the workshop dir when a WorkshopId exists -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(WorkshopDeployPath)" Condition="'$(WorkshopId)' != ''" />
+
+        <!-- Otherwise puts it in the plateup mod dir alongside the executable -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TestModDeployPath)" Condition="'$(WorkshopId)' == ''" />
+
+        <!-- Copies the compiled dll to the release directory so it can be uploaded to the workshop -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ReleaseAssetPath)" />
     </Target>
 
     <!-- Cleans up test mods dir -->
     <Target Name="CleanupTestMods" BeforeTargets="CoreClean">
-        <RemoveDir Directories="$(ModDeployPath)" />
+        <RemoveDir Directories="$(TestModDeployPath)" />
     </Target>
 
     <!-- References -->
@@ -38,9 +48,7 @@
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
 
         <Reference Include="Cinemachine" />
-        <Reference Include="Harmony">
-            <HintPath>$(WorshopDir)\2898033283\0Harmony.dll</HintPath>
-        </Reference>
+        <Reference Include="Controllers" />
         <Reference Include="Kitchen.Common" Publicize="true" />
         <Reference Include="Kitchen.GameData" Publicize="true" />
         <Reference Include="Kitchen.RestaurantMode" Publicize="true" />

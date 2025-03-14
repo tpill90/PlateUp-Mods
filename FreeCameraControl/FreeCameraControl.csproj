@@ -7,6 +7,7 @@
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
+        <LangVersion>latest</LangVersion>
 
         <ModName>FreeCameraControl</ModName>
         <WorkshopId>3437341535</WorkshopId>

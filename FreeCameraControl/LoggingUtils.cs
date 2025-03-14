@@ -1,9 +1,4 @@
-﻿using FreeCameraControl.Properties;
-using System.Reflection;
-using System;
-using UnityEngine;
-
-namespace FreeCameraControl
+﻿namespace FreeCameraControl
 {
     public static class LoggingUtils
     {

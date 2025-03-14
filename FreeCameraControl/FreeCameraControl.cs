@@ -1,22 +1,4 @@
-﻿#region usings
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Cinemachine;
-using FreeCameraControl.Properties;
-using JetBrains.Annotations;
-using Kitchen;
-using KitchenMods;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using Object = UnityEngine.Object;
-using static FreeCameraControl.LoggingUtils;
-using UnityEngine.InputSystem.Users;
-
-#endregion
-
-namespace FreeCameraControl
+﻿namespace FreeCameraControl
 {
     //TODO camera should proibably be reset when the scene changes
     [UsedImplicitly]

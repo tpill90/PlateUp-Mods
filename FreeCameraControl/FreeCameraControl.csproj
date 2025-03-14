@@ -42,15 +42,21 @@
         <RemoveDir Directories="$(TestModDeployPath)" />
     </Target>
 
+    <ItemGroup>
+      <Compile Remove="workshop\content\**" />
+      <EmbeddedResource Remove="workshop\content\**" />
+      <None Remove="workshop\content\**" />
+    </ItemGroup>
+
     <!-- References -->
     <ItemGroup>
         <!-- TODO move these references into Environment.props -->
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
 
         <Reference Include="Cinemachine" />
-        <Reference Include="Kitchen.Common" Publicize="true"/>
-        <Reference Include="KitchenMode" Publicize="true"/>
-        <Reference Include="KitchenMods" Publicize="true"/>
+        <Reference Include="Kitchen.Common" Publicize="true" />
+        <Reference Include="KitchenMode" Publicize="true" />
+        <Reference Include="KitchenMods" Publicize="true" />
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />

@@ -43,6 +43,12 @@
         <RemoveDir Directories="$(TestModDeployPath)" />
     </Target>
 
+    <ItemGroup>
+      <Compile Remove="workshop\content\**" />
+      <EmbeddedResource Remove="workshop\content\**" />
+      <None Remove="workshop\content\**" />
+    </ItemGroup>
+
     <!-- References -->
     <ItemGroup>
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />

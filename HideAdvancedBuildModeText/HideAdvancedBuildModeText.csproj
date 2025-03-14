@@ -1,83 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <!-- Lets us use shared configuration for all the projects -->
-    <Import Project="..\Environment.props" Condition="Exists('..\Environment.props')" />
 
     <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
-        <OutputType>Library</OutputType>
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
-        <!-- TODO move this into environment.props -->
-        <LangVersion>latest</LangVersion>
-
         <ModName>HideAdvancedBuildModeText</ModName>
         <WorkshopId>3443928799</WorkshopId>
-
-        <!-- TODO comment these properties and move them into Environment.props -->
-        <WorkshopDeployPath>$(WorshopDir)\$(WorkshopId)</WorkshopDeployPath>
-        <TestModDeployPath>$(PlateUpInstallDir)\PlateUp\Mods\$(ModName)\content</TestModDeployPath>
-        <ReleaseAssetPath>$(MSBuildProjectDirectory)\workshop\content </ReleaseAssetPath>
     </PropertyGroup>
 
-    <!-- Launches the game when running with or without debugger. -->
-    <PropertyGroup>
-        <StartAction>Program</StartAction>
-        <StartProgram>$(PlateUpInstallDir)\PlateUp\PlateUp.exe</StartProgram>
-    </PropertyGroup>
-
-    <!-- Automatically copies the test build over to the correct folder, depeneding on whether the mod has been published to the workshop -->
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-
-        <!-- Copies to the workshop dir when a WorkshopId exists -->
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(WorkshopDeployPath)" Condition="'$(WorkshopId)' != ''" />
-
-        <!-- Otherwise puts it in the plateup mod dir alongside the executable -->
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TestModDeployPath)" Condition="'$(WorkshopId)' == ''" />
-
-        <!-- Copies the compiled dll to the release directory so it can be uploaded to the workshop -->
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ReleaseAssetPath)" />
-    </Target>
-
-    <!-- Cleans up test mods dir -->
-    <Target Name="CleanupTestMods" BeforeTargets="CoreClean">
-        <RemoveDir Directories="$(TestModDeployPath)" />
-    </Target>
+    <!-- Lets us use shared configuration for all the projects.  Must be imported after the above properties so that paths resolve correctly -->
+    <Import Project="..\Environment.props" Condition="Exists('..\Environment.props')" />
 
     <ItemGroup>
-      <Compile Remove="workshop\content\**" />
-      <EmbeddedResource Remove="workshop\content\**" />
-      <None Remove="workshop\content\**" />
+        <Compile Remove="workshop\content\**" />
+        <EmbeddedResource Remove="workshop\content\**" />
+        <None Remove="workshop\content\**" />
     </ItemGroup>
 
     <!-- References -->
     <ItemGroup>
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
 
-        <Reference Include="Cinemachine" />
-        <Reference Include="Controllers" />
         <Reference Include="Kitchen.Common" Publicize="true" />
-        <Reference Include="Kitchen.GameData" Publicize="true" />
         <Reference Include="Kitchen.RestaurantMode" Publicize="true" />
-        <Reference Include="KitchenMode" Publicize="true" />
         <Reference Include="KitchenMods" Publicize="true" />
-        <Reference Include="Microsoft.CSharp" />
         <Reference Include="PreferenceSystem-Workshop">
-          <HintPath>$(WorshopDir)\2949018507\PreferenceSystem-Workshop.dll</HintPath>
+            <HintPath>$(WorshopDir)\2949018507\PreferenceSystem-Workshop.dll</HintPath>
         </Reference>
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Xml.Linq" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Net.Http" />
-        <Reference Include="System.Xml" />
-        <Reference Include="Unity.Collections" />
-        <Reference Include="Unity.Collections.LowLevel.ILSupport" />
         <Reference Include="Unity.Entities" />
-        <Reference Include="Unity.InputSystem" />
         <Reference Include="UnityEngine.CoreModule" />
-        <Reference Include="UnityEngine.InputModule" />
-        <Reference Include="UnityEngine.TextRenderingModule" />
-        <Reference Include="UnityEngine.UI" />
-        <Reference Include="UnityEngine.UIModule" />
     </ItemGroup>
 </Project>

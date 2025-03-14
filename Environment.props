@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This file contains MSBuild config that is the same between all of the mods.  This is stuff that ended up getting copy+pasted between each project's .csproj -->
 <Project ToolsVersion="Current">
     <PropertyGroup>
         <!-- This needs to be changed to your Plateup install directory -->
@@ -9,8 +10,44 @@
         <Managed>$(PlateUpInstallDir)\PlateUp\PlateUp_Data\Managed</Managed>
         <AssemblySearchPaths>$(AssemblySearchPaths);$(Managed);</AssemblySearchPaths>
 
+        <WorkshopDeployPath>$(WorshopDir)\$(WorkshopId)</WorkshopDeployPath>
+        <TestModDeployPath>$(PlateUpInstallDir)\PlateUp\Mods\$(ModName)\content</TestModDeployPath>
+        <ReleaseAssetPath>$(MSBuildProjectDirectory)\workshop\content </ReleaseAssetPath>
+    </PropertyGroup>
+
+    <!-- Shared C# config, so we don't have to keep copy pasting between all of the projects -->
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <OutputType>Library</OutputType>
+        <LangVersion>latest</LangVersion>
+
         <!-- Allows us to use publicized assemblies -->
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
+
+    <!-- Launches the game when running with or without debugger. -->
+    <PropertyGroup>
+        <StartAction>Program</StartAction>
+        <StartProgram>$(PlateUpInstallDir)\PlateUp\PlateUp.exe</StartProgram>
+    </PropertyGroup>
+
+    <!-- Automatically copies the test build over to the correct folder, depeneding on whether the mod has been published to the workshop -->
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+        <!-- Copies to the workshop dir when a WorkshopId exists -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(WorkshopDeployPath)" Condition="'$(WorkshopId)' != ''" />
+
+        <!-- Otherwise puts it in the plateup mod dir alongside the executable -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TestModDeployPath)" Condition="'$(WorkshopId)' == ''" />
+
+        <!-- Copies the compiled dll to the release directory so it can be uploaded to the workshop -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ReleaseAssetPath)" />
+    </Target>
+
+    <!-- Cleans up test mods dir -->
+    <Target Name="CleanupTestMods" BeforeTargets="CoreClean">
+        <RemoveDir Directories="$(TestModDeployPath)" />
+        <RemoveDir Directories="$(WorkshopDeployPath)" />
+    </Target>
 </Project>

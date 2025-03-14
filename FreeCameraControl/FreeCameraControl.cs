@@ -1,6 +1,7 @@
 ﻿namespace FreeCameraControl
 {
-    //TODO camera should proibably be reset when the scene changes
+    //TODO Camera position should probably be reset when the scene changes, like when going back to HQ
+    //TODO The camera pan speed appears to be tied to your refresh rate.  The higher the frame rate the faster it moves
     [UsedImplicitly]
     public class CameraPlus : GenericSystemBase, IModSystem
     {

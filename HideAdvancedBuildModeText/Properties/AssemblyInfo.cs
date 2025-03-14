@@ -1,19 +1,15 @@
-﻿
-
-// General Information about an assembly is controlled through the following
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("HideAdvancedBuildModeText")]
+﻿[assembly: AssemblyTitle("HideAdvancedBuildModeText")]
 [assembly: AssemblyCompany("tpill90")]
 
-[assembly: AssemblyVersion(ModInfo.MOD_VERSION)]
-[assembly: AssemblyFileVersion(ModInfo.MOD_VERSION)]
+[assembly: AssemblyVersion(ModInfo.ModVersion)]
+[assembly: AssemblyFileVersion(ModInfo.ModVersion)]
 
 namespace HideAdvancedBuildModeText.Properties
 {
     public static class ModInfo
     {
-        public const string MOD_NAME = "HideAdvancedBuildModeText";
-        public const string MOD_VERSION = "0.1.0.0";
+        public const string ModName = "HideAdvancedBuildModeText";
+        public const string ModNameHumanReadable = "Hide Advanced Build Mode Text";
+        public const string ModVersion = "0.2.0.0";
     }
 }

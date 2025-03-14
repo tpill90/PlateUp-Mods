@@ -22,13 +22,12 @@ csharp_space_after_cast = false
 indent_preprocessor_region = do_not_change
 space_between_attribute_sections = false
 resharper_use_collection_expression_highlighting=none
+resharper_redundant_explicit_array_creation_highlighting=none
+resharper_convert_closure_to_method_group_highlighting=none
 
 
 # CA1002: Do not expose generic lists
 dotnet_diagnostic.CA1002.severity = none
-# CA1008: Enums should have zero value
-# - The enums in this case are modeling Steam enums, so I have to match them exactly.
-dotnet_diagnostic.CA1008.severity = none
 # CA1014: Mark assemblies with CLSCompliant
 dotnet_diagnostic.CA1014.severity = none
 # CA1031: Modify (method) to catch a more specific allowed exception type, or rethrow the exception
@@ -75,6 +74,10 @@ dotnet_diagnostic.cs4014.severity = error
 # IDE0008 - Use explicit type instead of 'var'
 # - No idea why it is now recommending you to not use var anymore.  So disabling it.
 dotnet_diagnostic.IDE0008.severity = none
+
+# IDE0200 - Remove unnecessary lambda expression
+# - I don't think that this improves readability in my opinion.
+dotnet_diagnostic.IDE0200.severity = none
 
 # IDE0028: Simplify collection initialization
 # - Not a fan of the syntax, feels a little bit too terse

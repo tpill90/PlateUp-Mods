@@ -21,7 +21,7 @@
 
         public override void Initialise()
         {
-            LogWarning($"v{ModInfo.MOD_VERSION} in use!");
+            LogWarning($"v{ModInfo.ModVersion} in use!");
             InitKeybindings();
         }
 

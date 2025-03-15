@@ -2,6 +2,7 @@
 {
     //TODO Camera position should probably be reset when the scene changes, like when going back to HQ.  Look into FranchiseFirstFrameSystem as a base class, might give me what I want.
     //TODO The camera pan speed appears to be tied to your refresh rate.  The higher the frame rate the faster it moves
+    //TODO rename this to FreeCameraControl
     [UsedImplicitly]
     public class CameraPlus : GenericSystemBase, IModSystem
     {

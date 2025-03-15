@@ -1,5 +1,6 @@
 ﻿namespace DeclutterCraneModeUI
 {
+    //TODO the way that I did this seems to only work for the host
     [UsedImplicitly]
     public class DeclutterCraneModeUI : GenericSystemBase, IModSystem
     {
@@ -37,12 +38,20 @@
 
         protected override void OnUpdate()
         {
-            // Initialize these here because we can't do it in the Initialize() method since the  UI elements dont exist yet.
+            // If the mod isn't enabled, then
+            bool modEnabled = _prefManager.Get<bool>(ModEnabledPreferenceKey);
+            if (!modEnabled)
+            {
+                return;
+            }
+
+            // Initialize these here because we can't do it in the Initialize() method since the  UI elements don't exist yet.
             // We'll want to keep trying until we find all 4 elements
             if (_uiElementsToHide.Count != 4)
             {
                 // Finding and caching the UI objects for later
                 _uiElementsToHide = _uiElementPaths.Select(path => GameObject.Find(path)).Where(obj => obj != null).ToList();
+                LogInfo($"Found {_uiElementsToHide.Count} UI elements");
             }
 
             _frameCount++;
@@ -52,20 +61,27 @@
                 return;
             }
 
-            bool modEnabled = _prefManager.Get<bool>(ModEnabledPreferenceKey);
             bool playersInCraneMode = !_entityQuery.IsEmpty;
 
-            foreach (var gameObject in _uiElementsToHide)
+            try
             {
-                if (modEnabled && playersInCraneMode)
+                foreach (var gameObject in _uiElementsToHide)
                 {
-                    LogInfo("here");
-                    gameObject.SetActive(false);
+                    if (playersInCraneMode)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        gameObject.SetActive(true);
+                    }
                 }
-                else
-                {
-                    gameObject.SetActive(true);
-                }
+            }
+            catch (Exception e)
+            {
+                LogInfo(e.Message);
+                LogInfo("Something went wrong with SetActive().  Resetting UI element collection");
+                _uiElementsToHide.Clear();
             }
         }
     }

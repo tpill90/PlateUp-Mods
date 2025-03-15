@@ -9,5 +9,5 @@ global using Unity.Entities;
 global using UnityEngine;
 global using static DeclutterCraneModeUI.LoggingUtils;
 global using System.Linq;
-global using PreferenceSystem;
 global using Unity.Collections;
+global using PreferenceSystem;

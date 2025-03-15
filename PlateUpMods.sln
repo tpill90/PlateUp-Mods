@@ -5,12 +5,18 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCameraControl", "FreeCameraControl\FreeCameraControl.csproj", "{D43F6E56-AA4A-4689-8AB4-C027F10FA9B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{3A106900-4B65-4C32-8C7D-D1B7FF9A77E6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{3A106900-4B65-4C32-8C7D-D1B7FF9A77E6}"
 	ProjectSection(SolutionItems) = preProject
 		Environment.props = Environment.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterCraneModeUI", "DeclutterCraneModeUI\DeclutterCraneModeUI.csproj", "{7757BF3F-85CD-34B0-D07D-EE72806D461F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugging", "Debugging", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRestaurantLoader", "_Development\AutoRestaurantLoader\AutoRestaurantLoader.csproj", "{71C02F4F-EA13-5F5F-FE61-AE0022DDCFC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BepinExDebuggerShim", "_Development\BepinExDebuggerShim\BepinExDebuggerShim.csproj", "{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +32,21 @@ Global
 		{7757BF3F-85CD-34B0-D07D-EE72806D461F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7757BF3F-85CD-34B0-D07D-EE72806D461F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7757BF3F-85CD-34B0-D07D-EE72806D461F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71C02F4F-EA13-5F5F-FE61-AE0022DDCFC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C02F4F-EA13-5F5F-FE61-AE0022DDCFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71C02F4F-EA13-5F5F-FE61-AE0022DDCFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71C02F4F-EA13-5F5F-FE61-AE0022DDCFC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{71C02F4F-EA13-5F5F-FE61-AE0022DDCFC9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {470BBA30-1853-4040-BACA-B97C6858FA19}

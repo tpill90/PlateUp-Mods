@@ -21,7 +21,9 @@
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
 
         <Reference Include="Kitchen.Common" Publicize="true" />
+        <Reference Include="Kitchen.FranchiseMode" Publicize="true" />
         <Reference Include="Kitchen.RestaurantMode" Publicize="true" />
+        <Reference Include="KitchenMode" Publicize="true" />
         <Reference Include="KitchenMods" Publicize="true" />
         <Reference Include="PreferenceSystem-Workshop">
             <HintPath>$(WorshopDir)\2949018507\PreferenceSystem-Workshop.dll</HintPath>

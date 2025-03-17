@@ -1,7 +1,7 @@
 ﻿namespace DeclutterCraneModeUI
 {
     [UsedImplicitly]
-    public class DeclutterCraneModeUI : GenericSystemBase, IModInitializer, IModSystem
+    public class DeclutterCraneModeUI : GenericSystemBase, IModSystem
     {
         private readonly List<string> _uiElementPaths = new List<string>
         {
@@ -19,9 +19,14 @@
         private PreferenceSystemManager _prefManager;
         private const string ModEnabledPreferenceKey = "ModEnabledKey";
 
-        // This is called first before anything else.
-        public void PostActivate(Mod mod)
+        public override void Initialise()
         {
+            base.Initialise();
+
+            // Setting RequireSingletonForUpdate() means that our Update() method will only trigger if this object currently exists,
+            // so it should only disable UI elements during nighttime/preparation phase.
+            RequireSingletonForUpdate<SIsNightTime>();
+
             LogWarning($"v{ModInfo.ModVersion} in use!");
 
             _prefManager = new PreferenceSystemManager(ModInfo.ModName, ModInfo.ModNameHumanReadable);
@@ -29,19 +34,8 @@
                         .AddOption(ModEnabledPreferenceKey, initialValue: true, values: new bool[] { false, true }, strings: new string[] { "Disabled", "Enabled" })
                         .AddSpacer()
                         .AddSpacer();
-
-            _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
-        }
 
-        // Initializes the mod systems
-        public override void Initialise()
-        {
-            base.Initialise();
-
-            // Setting RequireSingletonForUpdate() means that our Update() method will only trigger if this object currently exists
-            // Should only disable UI elements during nighttime/preparation phase
-            RequireSingletonForUpdate<SIsNightTime>();
             _craneActivators = GetEntityQuery(typeof(CActivatingCraneMode), typeof(CBlockPing), typeof(CInputData));
         }
 
@@ -77,9 +71,5 @@
                 }
             }
         }
-
-        // These are empty on purpose because we don't use them
-        public void PreInject() {}
-        public void PostInject() {}
     }
 }

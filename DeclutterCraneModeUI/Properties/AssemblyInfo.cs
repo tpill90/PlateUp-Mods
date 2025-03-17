@@ -10,6 +10,6 @@ namespace DeclutterCraneModeUI.Properties
     {
         public const string ModName = "DeclutterCraneModeUI";
         public const string ModNameHumanReadable = "Declutter Crane Mode UI";
-        public const string ModVersion = "1.3.0.0";
+        public const string ModVersion = "1.3.1.0";
     }
 }

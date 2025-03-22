@@ -1,17 +1,11 @@
-using System.Diagnostics;
-using Kitchen;
-using KitchenMods;
-using Unity.Collections;
-using Unity.Entities;
-using Debug = UnityEngine.Debug;
-
-//TODO restore the code that I removed from this
+// TODO add ability to enable + disable + pick which slot
 namespace AutoRestaurantLoader
 {
+    [UsedImplicitly]
     [UpdateAfter(typeof(CreateLocationsRoom))]
-    public class AutoLoadResturant : FranchiseFirstFrameSystem, IModSystem
+    public class AutoLoadRestaurant : FranchiseFirstFrameSystem, IModSystem
     {
-        private int saveSlot = 1;
+        private int saveSlot = 4;
 
         private EntityQuery Query;
 
@@ -49,7 +43,6 @@ namespace AutoRestaurantLoader
                     }
                 }
             }
-            entities.Dispose();
         }
 
         #region Logging

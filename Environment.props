@@ -8,7 +8,7 @@
 
         <!--This tells the compiler where to look for assemblies. Don't change it.-->
         <Managed>$(PlateUpInstallDir)\PlateUp\PlateUp_Data\Managed</Managed>
-        <AssemblySearchPaths>$(AssemblySearchPaths);$(Managed);</AssemblySearchPaths>
+        <AssemblySearchPaths>$(AssemblySearchPaths);$(Managed);$(PlateUpInstallDir)\PlateUp\BepInEx\core</AssemblySearchPaths>
 
         <BepinExPluginsDir>$(PlateUpInstallDir)\PlateUp\BepInEx\plugins</BepinExPluginsDir>
         <Pdb2mdbPath>$(MSBuildThisFileDirectory)_Development\Libraries\pdb2mdb.exe</Pdb2mdbPath>

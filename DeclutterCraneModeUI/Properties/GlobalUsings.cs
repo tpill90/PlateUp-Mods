@@ -11,3 +11,4 @@ global using static DeclutterCraneModeUI.LoggingUtils;
 global using System.Linq;
 global using Unity.Collections;
 global using PreferenceSystem;
+global using HarmonyLib;

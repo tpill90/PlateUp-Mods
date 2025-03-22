@@ -13,6 +13,7 @@
     <ItemGroup>
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
 
+        <Reference Include="0Harmony" />
         <Reference Include="Kitchen.Common" Publicize="true" />
         <Reference Include="Kitchen.FranchiseMode" Publicize="true" />
         <Reference Include="Kitchen.RestaurantMode" Publicize="true" />

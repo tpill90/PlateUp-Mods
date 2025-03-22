@@ -4,17 +4,10 @@
     <PropertyGroup>
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
         <ModName>FreeCameraControl</ModName>
-        <WorkshopId>3437341535</WorkshopId>
     </PropertyGroup>
 
     <!-- Lets us use shared configuration for all the projects.  Must be imported after the above properties so that paths resolve correctly -->
     <Import Project="..\Environment.props" Condition="Exists('..\Environment.props')" />
-
-    <ItemGroup>
-        <Compile Remove="workshop\content\**" />
-        <EmbeddedResource Remove="workshop\content\**" />
-        <None Remove="workshop\content\**" />
-    </ItemGroup>
 
     <!-- References -->
     <ItemGroup>

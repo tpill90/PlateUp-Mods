@@ -10,7 +10,9 @@
         <Managed>$(PlateUpInstallDir)\PlateUp\PlateUp_Data\Managed</Managed>
         <AssemblySearchPaths>$(AssemblySearchPaths);$(Managed);</AssemblySearchPaths>
 
-        <WorkshopDeployPath>$(WorshopDir)\$(WorkshopId)</WorkshopDeployPath>
+        <BepinExPluginsDir>$(PlateUpInstallDir)\PlateUp\BepInEx\plugins</BepinExPluginsDir>
+        <Pdb2mdbPath>$(MSBuildThisFileDirectory)_Development\Libraries\pdb2mdb.exe</Pdb2mdbPath>
+
         <TestModDeployPath>$(PlateUpInstallDir)\PlateUp\Mods\$(ModName)\content</TestModDeployPath>
         <ReleaseAssetPath>$(MSBuildProjectDirectory)\workshop\content </ReleaseAssetPath>
     </PropertyGroup>
@@ -32,14 +34,27 @@
         <StartProgram>$(PlateUpInstallDir)\PlateUp\PlateUp.exe</StartProgram>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DebugType>Full</DebugType>
+    </PropertyGroup>
+
     <!-- Automatically copies the test build over to the correct folder, depeneding on whether the mod has been published to the workshop -->
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
 
-        <!-- Copies to the workshop dir when a WorkshopId exists -->
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(WorkshopDeployPath)" Condition="'$(WorkshopId)' != ''" />
+        <!-- Converts PDB to MDB for debugging with the Unity debugger -->
+        <Message Text="Running pdb2mdb.exe on $(TargetPath)" Importance="high" />
+        <Exec Command="$(Pdb2mdbPath) $(TargetPath)"/>
 
-        <!-- Otherwise puts it in the plateup mod dir alongside the executable -->
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TestModDeployPath)" Condition="'$(WorkshopId)' == ''" />
+        <!-- Copies the mod into the plateup mod dir alongside the executable -->
+        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).dll.mdb" DestinationFolder="$(TestModDeployPath)" />
+
+        <!-- Also copy to the bepinex plugin so we can debug with Visual studio breakpoints-->
+        <ItemGroup>
+            <!--TODO comment-->
+            <WorkshopReferences Include="@(ReferencePath)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', '.*\\steamapps\\workshop\\content.*$'))" />
+        </ItemGroup>
+        <Copy SourceFiles="@(WorkshopReferences)" DestinationFolder="$(BepinExPluginsDir)" />
+        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).dll.mdb" DestinationFolder="$(BepinExPluginsDir)" />
 
         <!-- Copies the compiled dll to the release directory so it can be uploaded to the workshop -->
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ReleaseAssetPath)" />
@@ -48,6 +63,13 @@
     <!-- Cleans up test mods dir -->
     <Target Name="CleanupTestMods" BeforeTargets="CoreClean">
         <RemoveDir Directories="$(TestModDeployPath)" />
-        <RemoveDir Directories="$(WorkshopDeployPath)" />
+        <!-- TODO doesnt copy plugins to bepinex dir correctly when this is enabled <RemoveDir Directories="$(BepinExPluginsDir)" />-->
     </Target>
+
+    <!--Comment-->
+    <ItemGroup>
+        <Compile Remove="workshop\content\**" />
+        <EmbeddedResource Remove="workshop\content\**" />
+        <None Remove="workshop\content\**" />
+    </ItemGroup>
 </Project>

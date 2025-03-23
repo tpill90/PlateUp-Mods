@@ -39,7 +39,7 @@
     </PropertyGroup>
 
     <!-- Automatically copies the test build over to the correct folder, depeneding on whether the mod has been published to the workshop -->
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+    <Target Name="PostBuildDebug" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
         <!-- Converts PDB to MDB for debugging with the Unity debugger -->
         <Message Text="Running pdb2mdb.exe on $(TargetPath)" Importance="high" />
         <Exec Command="$(Pdb2mdbPath) $(TargetPath)"/>

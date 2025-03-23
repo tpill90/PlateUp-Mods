@@ -17,6 +17,7 @@
                        .AddSpacer()
                        .AddSpacer();
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
+            PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
 
             LogInfo($"v{ModInfo.ModVersion} in use!");
         }

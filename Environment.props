@@ -39,8 +39,7 @@
     </PropertyGroup>
 
     <!-- Automatically copies the test build over to the correct folder, depeneding on whether the mod has been published to the workshop -->
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
         <!-- Converts PDB to MDB for debugging with the Unity debugger -->
         <Message Text="Running pdb2mdb.exe on $(TargetPath)" Importance="high" />
         <Exec Command="$(Pdb2mdbPath) $(TargetPath)"/>
@@ -55,9 +54,11 @@
         </ItemGroup>
         <Copy SourceFiles="@(WorkshopReferences)" DestinationFolder="$(BepinExPluginsDir)" />
         <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).dll.mdb" DestinationFolder="$(BepinExPluginsDir)" />
+    </Target>
 
-        <!-- Copies the compiled dll to the release directory so it can be uploaded to the workshop -->
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ReleaseAssetPath)" />
+    <!-- Copies the compiled dll to the release directory so it can be uploaded to the workshop -->
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
+      <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ReleaseAssetPath)" />
     </Target>
 
     <!-- Cleans up test mods dir -->

@@ -3,8 +3,9 @@
     [UsedImplicitly]
     public class DeclutterCraneModeUI : IModInitializer
     {
+        // Preference manager must be static otherwise it will be null after the mod is initially activated.
         public static PreferenceSystemManager PrefManager;
-        public const string ModEnabledPreferenceKey = "DeclutterCraneUI_ModEnabledKey";
+        public static readonly string ModEnabledPreferenceKey = "DeclutterCraneUI_ModEnabledKey";
 
         public void PostActivate(Mod mod)
         {
@@ -17,16 +18,11 @@
                        .AddSpacer();
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
 
-
             LogInfo($"v{ModInfo.ModVersion} in use!");
         }
 
-        public void PreInject()
-        {
-        }
-
-        public void PostInject()
-        {
-        }
+        // These are empty on purpose
+        public void PreInject() {}
+        public void PostInject() {}
     }
 }

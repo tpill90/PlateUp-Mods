@@ -23,7 +23,7 @@
 
         public override void Initialise()
         {
-            LogWarning($"v{ModInfo.ModVersion} in use!");
+            LogInfo($"v{ModInfo.ModVersion} in use!");
             InitKeybindings();
         }
 

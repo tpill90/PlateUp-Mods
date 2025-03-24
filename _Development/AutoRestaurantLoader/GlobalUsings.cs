@@ -5,3 +5,7 @@ global using Unity.Collections;
 global using Unity.Entities;
 global using Debug = UnityEngine.Debug;
 global using PreferenceSystem;
+global using HarmonyLib;
+global using System.Reflection;
+global using Kitchen.NetworkSupport;
+global using Controllers;

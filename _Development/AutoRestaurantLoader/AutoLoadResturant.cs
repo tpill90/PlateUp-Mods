@@ -11,6 +11,8 @@ namespace AutoRestaurantLoader
         // This is run first, after the mod has been loaded from disk
         public void PostActivate(Mod mod)
         {
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+
             _prefManager = new PreferenceSystemManager("AutoRestaurantLoader", "Auto Restaurant Loader");
             _prefManager.AddLabel("Save slot to load")
                        .AddOption<int>(SaveSlotKey, initialValue: 0, values: new int[] { 0, 1, 2, 3, 4, 5 }, new string[] { "Disabled", "1", "2", "3", "4", "5" })
@@ -70,5 +72,40 @@ namespace AutoRestaurantLoader
         // These are empty on purpose
         public void PreInject() { }
         public void PostInject() { }
+    }
+
+    [HarmonyPatch]
+    public static class Patches
+    {
+        public static void LogInfo(string _log) { Debug.Log($"[{"AutoLoadRestaurant"}] " + _log); }
+
+        public static int playerId = 0;
+        public static bool ranOnce = false;
+
+        // This will load us into the world on the first keypress we make
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(MainMenuView), nameof(MainMenuView.TakeInput))]
+        public static void MainMenuView_TakeInput(int player_id, InputState state)
+        {
+            if (ranOnce)
+            {
+                return;
+            }
+            playerId = player_id;
+            LogInfo($"MainMenuView - TakeInput - PlayerId {player_id}");
+
+            PlayerProfile playerProfile = ProfileAccessor.EnsureProfile(InputSourceIdentifier.Default.GetPlatformUser(playerId));
+            Session.RetainedPlayers.Clear();
+            Session.RetainedPlayers.Add(new RetainedPlayer()
+            {
+                PlayerProfile = playerProfile.Identifier,
+                InputPlayerID = playerId
+            });
+            LogInfo($"SetupMenus - PlayerProfile {playerProfile.Identifier._Value}  InputPlayerId {playerId}");
+
+            NetworkHelpers.CurrentNetworkPermissions = NetworkPermissions.Private;
+            Session.StartLocalGame(false);
+            ranOnce = true;
+        }
     }
 }

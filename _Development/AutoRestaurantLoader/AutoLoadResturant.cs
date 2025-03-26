@@ -82,11 +82,22 @@ namespace AutoRestaurantLoader
         public static int playerId = 0;
         public static bool ranOnce = false;
 
+        // TODO this might need to be moved into a bepinex plugin
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(MainMenuView), nameof(MainMenuView.BeginSplash))]
+        public static bool SkipSplashScreen(MainMenuView __instance)
+        {
+            LogInfo("BeginSplash");
+            __instance.SplashScreen.SetActive(false);
+            return false;
+        }
+
         // This will load us into the world on the first keypress we make
         [HarmonyPrefix]
         [HarmonyPatch(typeof(MainMenuView), nameof(MainMenuView.TakeInput))]
         public static void MainMenuView_TakeInput(int player_id, InputState state)
         {
+            //TODO comment + rename
             if (ranOnce)
             {
                 return;

@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRestaurantLoader", "_De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BepinExDebuggerShim", "_Development\BepinExDebuggerShim\BepinExDebuggerShim.csproj", "{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadyUpOnce", "ReadyUpOnce\ReadyUpOnce.csproj", "{5531098B-36F7-BCF3-D1FC-23E6E61F2BE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5531098B-36F7-BCF3-D1FC-23E6E61F2BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5531098B-36F7-BCF3-D1FC-23E6E61F2BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5531098B-36F7-BCF3-D1FC-23E6E61F2BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5531098B-36F7-BCF3-D1FC-23E6E61F2BE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

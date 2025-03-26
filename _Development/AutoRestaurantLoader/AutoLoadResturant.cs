@@ -1,5 +1,6 @@
 namespace AutoRestaurantLoader
 {
+    //TODO document what all of this does, maybe put it in my readme under development
     [UsedImplicitly]
     [UpdateAfter(typeof(CreateLocationsRoom))]
     public class AutoLoadRestaurant : FranchiseFirstFrameSystem, IModSystem, IModInitializer

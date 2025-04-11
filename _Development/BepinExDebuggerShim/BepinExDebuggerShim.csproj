@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
-        <ModName>BepinPlugin</ModName>
+        <ModName>BepinExDebuggerShim</ModName>
     </PropertyGroup>
 
     <!-- Lets us use shared configuration for all the projects.  Must be imported after the above properties so that paths resolve correctly -->
@@ -13,10 +13,6 @@
 
     <!-- References -->
     <ItemGroup>
-        <ProjectReference Include="..\..\DeclutterCraneModeUI\DeclutterCraneModeUI.csproj" />
-        <ProjectReference Include="..\..\FreeCameraControl\FreeCameraControl.csproj" />
-        <ProjectReference Include="..\AutoRestaurantLoader\AutoRestaurantLoader.csproj" />
-
         <Reference Include="BepInEx.Core">
             <HintPath>$(PlateUpInstallDir)\PlateUp\BepInEx\Core\BepInEx.Core.dll</HintPath>
         </Reference>

@@ -9,6 +9,7 @@ namespace FreeCameraControl.Properties
     public static class ModInfo
     {
         public const string ModName = "FreeCameraControl";
-        public const string ModVersion = "1.3.0.0";
+        public const string ModNameHumanReadable = "Free Camera Control";
+        public const string ModVersion = "1.4.0.0";
     }
 }

@@ -16,7 +16,7 @@
             //TODO I do need a way to make this more dynamic
             UnityLogger.LogInfo($"{typeof(AutoRestaurantLoader.AutoLoadRestaurant).Name} loaded");
             UnityLogger.LogInfo($"{typeof(DeclutterCraneModeUI.DeclutterCraneModeUI).Name} loaded.");
-            UnityLogger.LogInfo($"{typeof(FreeCameraControl.CameraPlus).Name} loaded.");
+            UnityLogger.LogInfo($"{typeof(FreeCameraControl.FreeCameraControl).Name} loaded.");
         }
     }
 }

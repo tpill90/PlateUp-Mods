@@ -19,5 +19,9 @@
         <Reference Include="Unity.Entities" />
         <Reference Include="Unity.InputSystem" />
         <Reference Include="UnityEngine.CoreModule" />
+
+        <Reference Include="PreferenceSystem-Workshop">
+            <HintPath>$(WorshopDir)\2949018507\PreferenceSystem-Workshop.dll</HintPath>
+        </Reference>
     </ItemGroup>
 </Project>

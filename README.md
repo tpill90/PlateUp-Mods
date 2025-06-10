@@ -8,7 +8,7 @@ A collection of my mods for the game [Plate Up!](https://store.steampowered.com/
       <tr>
         <td>Free Camera Control</td>
         <td>Allows you to manually control the position and zoom of the camera!</td>
-        <td> <a href="https://github.com/tpill90/PlateUp-Mods/blob/main/FreeCameraControl/README.md">Readme</a> </td>
+        <td> <a href="https://github.com/tpill90/PlateUp-Mods/blob/master/FreeCameraControl/README.md">Readme</a> </td>
         <td> <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3437341535">Steam Workshop</a> </td>
       </tr>
       <tr>

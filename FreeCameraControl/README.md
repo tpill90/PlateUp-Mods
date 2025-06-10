@@ -1,7 +1,5 @@
 # Free Camera Control
 
-<!-- TODO rerecord video with a different username -->
-
 Don't like how Plate Up! is controlling the camera for you?  Are things too small and you'd like to see them zoomed in?  This mod allows you to manually control the camera yourself!  You can pan and zoom the camera to position it however you would like!
 
 ## Usage and Controller Buttons
@@ -20,4 +18,3 @@ The camera can then be controlled as follows:
 </table>
 
 When you're finished adjusting the camera **Right Stick Press** or **F1** and the camera will be locked again!
-

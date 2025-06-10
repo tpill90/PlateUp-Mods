@@ -1,4 +1,5 @@
 # Getting PlateUp install dir
+Push-Location $PSScriptRoot
 [xml]$parsedProps = Get-Content Environment.props
 $plateupInstallDir = ([string]$parsedProps.Project.PropertyGroup.PlateUpInstallDir).Trim()
 $logFile = "$plateupInstallDir\PlateUp\BepInEx\LogOutput.log"

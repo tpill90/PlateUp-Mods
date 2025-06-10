@@ -34,26 +34,22 @@
         <StartProgram>$(PlateUpInstallDir)\PlateUp\PlateUp.exe</StartProgram>
     </PropertyGroup>
 
+    <!-- Required for debugging -->
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <DebugType>Full</DebugType>
     </PropertyGroup>
 
     <!-- Automatically copies the test build over to the correct folder, depeneding on whether the mod has been published to the workshop -->
     <Target Name="PostBuildDebug" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
-        <!-- Converts PDB to MDB for debugging with the Unity debugger -->
-        <Message Text="Running pdb2mdb.exe on $(TargetPath)" Importance="high" />
-        <Exec Command="$(Pdb2mdbPath) $(TargetPath)"/>
 
-        <!-- Copies the mod into the plateup mod dir alongside the executable -->
-        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).dll.mdb" DestinationFolder="$(TestModDeployPath)" />
+        <!-- Copies the mod .dll + .pdb into the plateup mod dir alongside the executable -->
+        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).pdb" DestinationFolder="$(TestModDeployPath)" />
 
-        <!-- Also copy to the bepinex plugin so we can debug with Visual studio breakpoints-->
-        <ItemGroup>
-            <!--TODO comment-->
+        <!--<ItemGroup>
             <WorkshopReferences Include="@(ReferencePath)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', '.*\\steamapps\\workshop\\content.*$'))" />
         </ItemGroup>
         <Copy SourceFiles="@(WorkshopReferences)" DestinationFolder="$(BepinExPluginsDir)" />
-        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).dll.mdb" DestinationFolder="$(BepinExPluginsDir)" />
+        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).pdb" DestinationFolder="$(BepinExPluginsDir)" />-->
     </Target>
 
     <!-- Copies the compiled dll to the release directory so it can be uploaded to the workshop -->

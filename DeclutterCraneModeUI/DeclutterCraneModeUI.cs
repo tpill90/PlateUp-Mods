@@ -23,7 +23,7 @@
         }
 
         // These are empty on purpose
-        public void PreInject() {}
-        public void PostInject() {}
+        public void PreInject() { }
+        public void PostInject() { }
     }
 }

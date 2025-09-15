@@ -1,3 +1,4 @@
+# TODO write a parameter that lets you filter down to only a specific mod's logs.
 # Getting PlateUp install dir
 [xml]$parsedProps = Get-Content Environment.props
 $plateupInstallDir = ([string]$parsedProps.Project.PropertyGroup.PlateUpInstallDir).Trim()

@@ -15,6 +15,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\DeclutterCraneModeUI\DeclutterCraneModeUI.csproj" />
         <ProjectReference Include="..\..\FreeCameraControl\FreeCameraControl.csproj" />
+        <ProjectReference Include="..\..\PaperPlates\PaperPlates.csproj" />
 
         <Reference Include="BepInEx.Core">
             <HintPath>$(PlateUpInstallDir)\PlateUp\BepInEx\Core\BepInEx.Core.dll</HintPath>

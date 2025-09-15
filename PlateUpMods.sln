@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRestaurantLoader", "_De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BepinExDebuggerShim", "_Development\BepinExDebuggerShim\BepinExDebuggerShim.csproj", "{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperPlates", "PaperPlates\PaperPlates.csproj", "{700CD15C-DA7A-449F-C1BC-9260F1E99557}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC55AD5C-496F-A0EC-0C2A-B24710AA600B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{700CD15C-DA7A-449F-C1BC-9260F1E99557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{700CD15C-DA7A-449F-C1BC-9260F1E99557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{700CD15C-DA7A-449F-C1BC-9260F1E99557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{700CD15C-DA7A-449F-C1BC-9260F1E99557}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

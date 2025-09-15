@@ -16,6 +16,7 @@
             //TODO I do need a way to make this more dynamic
             UnityLogger.LogInfo($"{typeof(DeclutterCraneModeUI.DeclutterCraneModeUI).Name} loaded.");
             UnityLogger.LogInfo($"{typeof(FreeCameraControl.FreeCameraControl).Name} loaded.");
+            UnityLogger.LogInfo($"{typeof(PaperPlates.PaperPlates).Name} loaded.");
         }
     }
 }

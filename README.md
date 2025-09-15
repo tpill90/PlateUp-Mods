@@ -17,6 +17,12 @@ A collection of my mods for the game [Plate Up!](https://store.steampowered.com/
         <td> <a href="https://github.com/tpill90/PlateUp-Mods/blob/master/DeclutterCraneModeUI/README.md">Readme</a> </td>
         <td> <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3443928799">Steam Workshop</a> </td>
       </tr>
+      <tr>
+        <td>Paper Plates</td>
+        <td>No more need to wash dirty dishes!  Just throw them away instead! </td>
+        <td> <a href="https://github.com/tpill90/PlateUp-Mods/blob/master/PaperPlates/README.md">Readme</a> </td>
+        <td> <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3569921419">Steam Workshop</a> </td>
+      </tr>
 </table>
 
 # Installation

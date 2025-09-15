@@ -11,6 +11,7 @@
 
     <!-- References -->
     <ItemGroup>
+        <Reference Include="0Harmony" />
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
 
         <Reference Include="Cinemachine" />

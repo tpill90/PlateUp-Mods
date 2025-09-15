@@ -1,9 +1,8 @@
-// Global using directives
-
 global using System.Linq;
 global using System.Reflection;
 global using Cinemachine;
 global using FreeCameraControl.Properties;
+global using HarmonyLib;
 global using JetBrains.Annotations;
 global using Kitchen;
 global using KitchenMods;

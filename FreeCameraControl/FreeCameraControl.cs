@@ -1,6 +1,5 @@
 ﻿namespace FreeCameraControl
 {
-    //TODO Camera position should probably be reset when the scene changes, like when going back to HQ.  Look into FranchiseFirstFrameSystem as a base class, might give me what I want.
     [UsedImplicitly]
     public class FreeCameraControl : GenericSystemBase, IModSystem
     {
@@ -39,6 +38,8 @@
                         .AddSpacer();
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
+
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         }
 
         /// <summary>
@@ -154,8 +155,6 @@
             }
         }
 
-
-
         /// <summary>
         /// Resets the camera position back to the initial starting point.
         /// </summary>
@@ -258,6 +257,24 @@
 
                 Camera.main.transform.position = new Vector3(viewPosition.x, height, viewPosition.z - deltaZ);
                 LogInfo($"Positioning camera on player - {currentPlayer.Name} - New Camera Position: {Camera.main.transform.position}");
+            }
+        }
+
+        [HarmonyPatch]
+        public static class Patches
+        {
+            /// <summary>
+            /// This will reset any camera positioning back to default when the scene changes.  Example scene changes include going to the tutorial,
+            /// going back to the main base, loading into a restaurant, ending a run, etc.
+            /// </summary>
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(GenericSystemBase), nameof(GenericSystemBase.MarkTransitionStageCompleted))]
+            public static void ResetCameraPositionOnSceneChange()
+            {
+                var cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+                cinemachineBrain.enabled = true;
+
+                LogInfo("Scene changed, camera position reset to default.");
             }
         }
     }

@@ -17,7 +17,7 @@
         // When this is set to true, the user will be able to move the camera
         private bool _freeMoveCameraEnabled;
 
-        // This is the action used by Plate Up to move the characters, which we will disable/re-enable later.
+        // This is the (built in) action used by Plate Up to move the characters, which we will disable/re-enable later.
         private InputAction _movePlayerAction;
 
         // This is the input device of the player who toggled the camera lock.  Can be a keyboard or mouse
@@ -26,7 +26,7 @@
         public override void Initialise()
         {
             LogInfo($"v{ModInfo.ModVersion} in use!");
-            InitKeybindings();
+            InitGlobalKeybindings();
 
             _prefManager = new PreferenceSystemManager(ModInfo.ModName, ModInfo.ModNameHumanReadable);
             _prefManager.AddLabel("Camera Pan Speed")
@@ -41,48 +41,61 @@
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
         }
 
-        private void InitKeybindings()
+        /// <summary>
+        /// These keybindings can be initialized at mod startup because we will be able to check which user triggered them in the performed action callback.
+        /// </summary>
+        private void InitGlobalKeybindings()
         {
             // Toggle static camera - Resets camera back to default
             _toggleFreeMoveCameraAction = new InputAction(nameof(ToggleFreeMoveCamera), InputActionType.Button, "<Gamepad>/rightStickPress/");
             _toggleFreeMoveCameraAction.AddBinding("<Keyboard>/F1");
-            _toggleFreeMoveCameraAction.performed += context =>
-            {
-                ToggleFreeMoveCamera(context);
-            };
+            _toggleFreeMoveCameraAction.performed += context => ToggleFreeMoveCamera(context);
             _toggleFreeMoveCameraAction.Enable();
 
             // Centers the camera on the current player
             _positionCameraOnPlayerAction = new InputAction(nameof(PositionCameraOnPlayer), InputActionType.Button, "<Gamepad>/rightShoulder/");
             _positionCameraOnPlayerAction.AddBinding("<Keyboard>/C");
-            _positionCameraOnPlayerAction.performed += context =>
-            {
-                PositionCameraOnPlayer(context);
-            };
+            _positionCameraOnPlayerAction.performed += context => PositionCameraOnPlayer(context);
             _positionCameraOnPlayerAction.Enable();
 
             // Resets the camera back to its original position
             _resetCameraPositionAction = new InputAction("Reset Camera", InputActionType.Button, "<Gamepad>/leftShoulder/");
             _resetCameraPositionAction.AddBinding("<Keyboard>/R");
-            _resetCameraPositionAction.performed += context =>
-            {
-                ResetCamera(context);
-            };
+            _resetCameraPositionAction.performed += context => ResetCamera(context);
             _resetCameraPositionAction.Enable();
+        }
 
-            // Zoom
-            _zoomAction = new InputAction("CameraZoom", InputActionType.Button, "<Gamepad>/rightStick/y");
-            _zoomAction.AddBinding("<Mouse>/scroll/y");
-            _zoomAction.Enable();
+        /// <summary>
+        /// Initializes the pan and zoom bindings for an individual player.  It would be preferable to do this at mod startup, however not all players will be connected
+        /// when the mod is initialized.  This could also be done in the method triggered by a player connecting a controller, however I don't feel like adding that complexity in.
+        /// We must create the bindings this way because there is no callback context to check which user did the pan/zoom.  Since we don't initially create the player bindings
+        /// (which is what the game does), we need to do this nasty workaround instead.
+        /// </summary>
+        private void InitKeybindingsForPlayer(InputUser inputUser)
+        {
+            // Skipping initialization if both actions have already been created.
+            if (inputUser.actions.Count(e => e.name == nameof(UpdatePan) || e.name == nameof(UpdateZoom)) == 2)
+            {
+                return;
+            }
+
+            var map = inputUser.actions.ToList().First().actionMap;
+            // Map must be temporarily disabled otherwise Unity throws an exception
+            map.Disable();
 
             // Pan
-            _panAction = new InputAction("CameraPan", InputActionType.Button, "<Gamepad>/leftStick");
-            _panAction.AddCompositeBinding("2DVector")
-                      .With("Up", "<Keyboard>/w")
-                      .With("Down", "<Keyboard>/s")
-                      .With("Left", "<Keyboard>/a")
-                      .With("Right", "<Keyboard>/d");
-            _panAction.Enable();
+            var panAction = map.AddAction(nameof(UpdatePan), InputActionType.Button, "<Gamepad>/leftStick");
+            panAction.AddCompositeBinding("2DVector")
+                     .With("Up", "<Keyboard>/w")
+                     .With("Down", "<Keyboard>/s")
+                     .With("Left", "<Keyboard>/a")
+                     .With("Right", "<Keyboard>/d");
+
+            // Zoom
+            var zoomAction = map.AddAction(nameof(UpdateZoom), InputActionType.Button, "<Gamepad>/rightStick/y");
+            zoomAction.AddBinding("<Mouse>/scroll/y");
+
+            map.Enable();
         }
 
         protected override void OnUpdate()
@@ -112,28 +125,36 @@
             if (_freeMoveCameraEnabled)
             {
                 // Find and save the gamepad for the user who triggered the event.  Will use it later so only they can move the camera.
-                _playerInputDevice = InputSystem.devices.FirstOrDefault(e => e.deviceId == context.control.device.deviceId);
+                _playerInputDevice = InputSystem.devices.First(e => e.deviceId == context.control.device.deviceId);
 
-                // Finding and saving the existing PlateUp action that handles player movement, so we can re-enable it later.
-                var deviceIdsPerAction = InputSystem.ListEnabledActions()
-                                                    .Where(e => e.name == "Movement")
-                                                    .Select(e => new
-                                                    {
-                                                        Action = e,
-                                                        DeviceIds = e.actionMap.devices.Value.Select(e2 => e2.deviceId).ToList()
-                                                    });
+                InputUser inputUser = InputUser.FindUserPairedToDevice(context.control.device).Value;
+                InitKeybindingsForPlayer(inputUser);
 
-                // Disabling movement only for the player that toggled the camera
-                _movePlayerAction = deviceIdsPerAction.First(e => e.DeviceIds.Contains(context.control.device.deviceId)).Action;
+                _panAction = inputUser.actions.First(e => e.name == nameof(UpdatePan));
+                _zoomAction = inputUser.actions.First(e => e.name == nameof(UpdateZoom));
+                _panAction.Enable();
+                _zoomAction.Enable();
+
+                _movePlayerAction = inputUser.actions.First(e => e.name == "Movement");
                 _movePlayerAction.Disable();
+
             }
             else
             {
+                // Re-enabling player movement
+                _movePlayerAction.Enable();
+                _panAction.Disable();
+                _zoomAction.Disable();
+
+                _movePlayerAction = null;
+                _panAction = null;
+
                 // Reset for next time this is triggered
                 _playerInputDevice = null;
-                _movePlayerAction.Enable();
             }
         }
+
+
 
         /// <summary>
         /// Resets the camera position back to the initial starting point.

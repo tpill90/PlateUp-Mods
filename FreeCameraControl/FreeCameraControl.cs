@@ -38,8 +38,6 @@
                         .AddSpacer();
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
-
-            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         }
 
         /// <summary>
@@ -101,6 +99,12 @@
 
         protected override void OnUpdate()
         {
+            if (Has<CSceneFirstFrame>())
+            {
+                var cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+                cinemachineBrain.enabled = true;
+            }
+
             if (!_freeMoveCameraEnabled)
             {
                 return;
@@ -257,24 +261,6 @@
 
                 Camera.main.transform.position = new Vector3(viewPosition.x, height, viewPosition.z - deltaZ);
                 LogInfo($"Positioning camera on player - {currentPlayer.Name} - New Camera Position: {Camera.main.transform.position}");
-            }
-        }
-
-        [HarmonyPatch]
-        public static class Patches
-        {
-            /// <summary>
-            /// This will reset any camera positioning back to default when the scene changes.  Example scene changes include going to the tutorial,
-            /// going back to the main base, loading into a restaurant, ending a run, etc.
-            /// </summary>
-            [HarmonyPrefix]
-            [HarmonyPatch(typeof(GenericSystemBase), nameof(GenericSystemBase.MarkTransitionStageCompleted))]
-            public static void ResetCameraPositionOnSceneChange()
-            {
-                var cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
-                cinemachineBrain.enabled = true;
-
-                LogInfo("Scene changed, camera position reset to default.");
             }
         }
     }

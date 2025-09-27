@@ -17,7 +17,7 @@
         <ReleaseAssetPath>$(MSBuildProjectDirectory)\workshop\content </ReleaseAssetPath>
     </PropertyGroup>
 
-    <!-- Shared C# config, so we don't have to keep copy pasting between all of the projects -->
+    <!-- Shared C# config -->
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>

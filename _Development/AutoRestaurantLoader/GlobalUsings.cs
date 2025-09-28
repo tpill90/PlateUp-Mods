@@ -9,3 +9,4 @@ global using HarmonyLib;
 global using System.Reflection;
 global using Kitchen.NetworkSupport;
 global using Controllers;
+global using Platforms;

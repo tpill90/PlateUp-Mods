@@ -115,7 +115,7 @@ namespace AutoRestaurantLoader
             LogInfo($"SetupMenus - PlayerProfile {playerProfile.Identifier._Value}  InputPlayerId {playerId}");
 
             NetworkHelpers.CurrentNetworkPermissions = NetworkPermissions.Private;
-            Session.StartLocalGame(false);
+            Session.CreateGame(retain_players: false);
             ranOnce = true;
         }
     }

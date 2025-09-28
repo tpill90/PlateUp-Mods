@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BepinExDebuggerShim", "_Dev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaperPlates", "PaperPlates\PaperPlates.csproj", "{700CD15C-DA7A-449F-C1BC-9260F1E99557}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HassleFreeShop", "HassleFreeShop\HassleFreeShop.csproj", "{4064A392-8D87-4A19-23D1-B42F58F90AC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{700CD15C-DA7A-449F-C1BC-9260F1E99557}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{700CD15C-DA7A-449F-C1BC-9260F1E99557}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{700CD15C-DA7A-449F-C1BC-9260F1E99557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4064A392-8D87-4A19-23D1-B42F58F90AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4064A392-8D87-4A19-23D1-B42F58F90AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4064A392-8D87-4A19-23D1-B42F58F90AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4064A392-8D87-4A19-23D1-B42F58F90AC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

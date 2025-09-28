@@ -1,3 +1,5 @@
+using Platforms;
+
 namespace AutoRestaurantLoader
 {
     [UsedImplicitly]

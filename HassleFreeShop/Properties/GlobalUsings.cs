@@ -1,0 +1,10 @@
+global using JetBrains.Annotations;
+global using Kitchen;
+global using KitchenData;
+global using KitchenMods;
+global using PreferenceSystem;
+global using System.Collections.Generic;
+global using System.Reflection;
+global using Unity.Collections;
+global using Unity.Entities;
+global using UnityEngine;

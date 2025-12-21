@@ -3,6 +3,7 @@
 
     <PropertyGroup>
         <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
+<!--TODO what does this do? -->
         <ModName>DeclutterCraneModeUI</ModName>
     </PropertyGroup>
 

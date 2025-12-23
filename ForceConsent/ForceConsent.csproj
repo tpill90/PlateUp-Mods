@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>$(MSBuildProjectName)-Workshop</AssemblyName>
+        <ModName>ForceConsent</ModName>
+    </PropertyGroup>
+
+    <!-- Lets us use shared configuration for all the projects.  Must be imported after the above properties so that paths resolve correctly -->
+    <Import Project="..\Environment.props" Condition="Exists('..\Environment.props')" />
+
+    <!-- References -->
+    <ItemGroup>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
+        <Reference Include="Kitchen.FranchiseMode">
+          <HintPath>..\DeclutterCraneModeUI\obj\Debug\net472\publicized\Kitchen.FranchiseMode.dll</HintPath>
+        </Reference>
+        <Reference Include="Kitchen.RestaurantMode">
+          <HintPath>..\DeclutterCraneModeUI\obj\Debug\net472\publicized\Kitchen.RestaurantMode.dll</HintPath>
+        </Reference>
+
+        <Reference Include="KitchenMode" Publicize="true" />
+        <Reference Include="Kitchen.Common" Publicize="true" />
+        <Reference Include="Kitchen.GameData" Publicize="true" />
+        <Reference Include="KitchenMods" Publicize="true" />
+        <Reference Include="Unity.Entities" />
+        <Reference Include="UnityEngine.CoreModule" />
+
+        <Reference Include="PreferenceSystem-Workshop">
+            <HintPath>$(WorshopDir)\2949018507\PreferenceSystem-Workshop.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>

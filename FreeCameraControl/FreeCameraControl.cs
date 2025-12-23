@@ -99,6 +99,7 @@
 
         protected override void OnUpdate()
         {
+            // Resets the camera when we move between scenes
             if (Has<CSceneFirstFrame>())
             {
                 var cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();

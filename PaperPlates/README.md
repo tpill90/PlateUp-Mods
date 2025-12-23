@@ -1,3 +1,4 @@
+<!--TODO Reference that Automation plus goes great with this mod since it lets you remove trash from bins with grabbers -->
 # Paper Plates
 
 A fixed and improved version of the [Original Paper Plates Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2913800987).  It is compatible with the latest version of Plate Up!

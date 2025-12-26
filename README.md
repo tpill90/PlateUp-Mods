@@ -50,6 +50,11 @@ How to setup the development enviroment for this project:
 
 The script `_TailLogs.ps1` in the repository root can be used to improve the logging experience.  BepInEx annoyingly always puts it's log console underneath the game, requiring you to move the logs to another window each time you launch the game.  Also there is additional logging noise from Plate Up itself that you might not want to be polluting your logs.  This script will filter those logs out, and allows you to keep the logs open in another terminal instance on a different monitor.
 
+## Other Dev Tools
+
+- [Stuff on Demand](https://steamcommunity.com/sharedfiles/filedetails/?id=2956266506) can be used to spawn in appliances for testing.  Open the menu with `F3`.
+- [Plate Up Explorer](https://steamcommunity.com/sharedfiles/filedetails/?id=2933828796) can be used to inspect game objects, UI elements, and more.  Open with `Ctrl + Shift + T`.
+
 # Publishing
 
 Update `MOD_VERSION` in `AssemblyInfo.cs` and build a new version in `Release` mode.  Then run the Plate Up! mod uploader that is in the `C:\Program Files (x86)\Steam\steamapps\common\PlateUp\PlateUp\PlateUp_Data` directory.  Point the mod uploader to the `workshop` dir found in each mod's source code folder.

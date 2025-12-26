@@ -12,30 +12,25 @@
 
             _prefManager = new PreferenceSystemManager(ModInfo.ModName, ModInfo.ModNameHumanReadable);
             _prefManager.AddLabel("Mod Enabled")
-                        .AddOption(ModEnabledPreferenceKey, initialValue: true, values: new bool[] { false, true }, strings: new string[] { "Disabled", "Enabled" }, ModEnabledPreferenceChanged)
+                        .AddLabel("(Change requires restart!)")
+                        .AddOption(ModEnabledPreferenceKey, initialValue: true, values: new bool[] { false, true }, strings: new string[] { "Disabled", "Enabled" })
                         .AddSpacer()
                         .AddSpacer();
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
             _prefManager.RegisterMenu(PreferenceSystemManager.MenuType.MainMenu);
 
+            // Sinks must be disabled before the game actually loads, otherwise the changes won't be applied correctly.
+            ConfigureSinkUsability();
+
             // Will apply the mod once per in game day
             RequireSingletonForUpdate<SIsDayFirstUpdate>();
-        }
-
-        private void ModEnabledPreferenceChanged(bool newSettingValue)
-        {
-            ApplyMod(newSettingValue);
         }
 
         // This will only apply the mod once per day when the day starts.
         protected override void OnUpdate()
         {
             var modEnabled = _prefManager.Get<bool>(ModEnabledPreferenceKey);
-            ApplyMod(modEnabled);
-        }
 
-        private void ApplyMod(bool modEnabled)
-        {
             // Allowing plates to be thrown away. When IsIndisposable is set to false it will be possible to throw them away.
             GameData.Main.Get<Item>(ItemIDs.PlateDirty).IsIndisposable = !modEnabled;
             GameData.Main.Get<Item>(ItemIDs.Plate).IsIndisposable = !modEnabled;
@@ -48,9 +43,6 @@
             {
                 // Setting the amount of plates in each plate stack instance
                 ConfigurePlateStackAmounts(modEnabled, entity);
-
-                // Making dirty plates be unable to be washed
-                ConfigureSinkUsability(modEnabled, entity);
             }
         }
 
@@ -68,8 +60,8 @@
             {
                 // Setting the amount of plates to an absurdly high number, effectively making it "infinite" since there is no way to use this many in a day.
                 // This value will be reset every day.
-                itemProvider.Maximum = 20_000;
-                itemProvider.Available = 20_000;
+                itemProvider.Maximum = 200_000;
+                itemProvider.Available = 200_000;
             }
             else
             {
@@ -88,23 +80,25 @@
             EntityManager.SetComponentData(entity, itemProvider);
         }
 
-        private void ConfigureSinkUsability(bool modEnabled, Entity entity)
+        /// <summary>
+        /// This must be run prior to the game fully loading, otherwise the changes won't be applied.
+        /// This can't be applied at runtime since it's essentially modifying the "base template" of the appliances, which then gets
+        /// cloned and instantiated at runtime.  Once the appliances have been cloned off of the "base" version the base version is never referenced again.
+        /// </summary>
+        private void ConfigureSinkUsability()
         {
-            var appliance = EntityManager.GetComponentData<CAppliance>(entity);
-            if (!ItemIDs.Sinks.Contains(appliance.ID))
+            var modEnabled = _prefManager.Get<bool>(ModEnabledPreferenceKey);
+            if (!modEnabled)
             {
                 return;
             }
 
-            if (modEnabled && Has<CItemHolder>(entity))
+            foreach (var sinkId in ItemIDs.Sinks)
             {
-                // Removing the CItemHolder prevents sinks from being able to have an item inserted into them.
-                EntityManager.RemoveComponent<CItemHolder>(entity);
-            }
-            else if (!modEnabled && !Has<CItemHolder>(entity))
-            {
-                // Readding the component allows sinks to hold items again.
-                EntityManager.AddComponentData(entity, new CItemHolder());
+                Appliance appliance = GameData.Main.Get<Appliance>(sinkId);
+                var process = appliance.Processes[0];
+                process.Speed = 0.0f;
+                appliance.Processes[0] = process;
             }
         }
     }

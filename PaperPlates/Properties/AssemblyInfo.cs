@@ -10,6 +10,6 @@ namespace PaperPlates.Properties
     {
         public const string ModName = "PaperPlates";
         public const string ModNameHumanReadable = "Paper Plates";
-        public const string ModVersion = "1.0.0.0";
+        public const string ModVersion = "1.1.0.0";
     }
 }

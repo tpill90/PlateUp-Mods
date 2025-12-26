@@ -10,9 +10,11 @@ This mod adds a new level of convenience to your gameplay, allowing you to serve
 
 Overall, the paper plate mod is perfect for players who value convenience over the well-being of the planet. So if you're looking to make a big environmental impact - but not in a good way - this mod is for you!
 
+Paper Plates also pairs well with [AutomationPlus](https://steamcommunity.com/sharedfiles/filedetails/?id=2922412179) to automate pulling trash from bins with grabbers!
+
 ## Features
 
-* Mod is configurable to be enabled/disabled.  Changes apply immediately without game restart.
+* Mod is configurable to be enabled/disabled.  Note that the game must be restarted after changing settings!
 * The starting, large, and auto plate stacks have an unlimited amount of plates.
 * Plates and dirty plates can now be thrown away in trash cans.
 * Plates can no longer be placed in sinks or washed, requiring them to be thrown away.

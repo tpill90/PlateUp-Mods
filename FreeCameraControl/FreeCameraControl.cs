@@ -142,7 +142,6 @@
 
                 _movePlayerAction = inputUser.actions.First(e => e.name == "Movement");
                 _movePlayerAction.Disable();
-
             }
             else
             {

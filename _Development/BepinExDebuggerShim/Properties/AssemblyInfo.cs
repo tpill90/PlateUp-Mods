@@ -1,6 +1,4 @@
-﻿using BepinExDebuggerShim.Properties;
-
-[assembly: AssemblyTitle(ModInfo.ModName)]
+﻿[assembly: AssemblyTitle(ModInfo.ModName)]
 [assembly: AssemblyCompany("tpill90")]
 
 [assembly: AssemblyVersion(ModInfo.ModVersion)]

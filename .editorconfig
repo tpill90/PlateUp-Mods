@@ -24,6 +24,9 @@ space_between_attribute_sections = false
 resharper_use_collection_expression_highlighting=none
 resharper_redundant_explicit_array_creation_highlighting=none
 resharper_convert_closure_to_method_group_highlighting=none
+# Complains about referencing Unity classes like GameObject, but I don't think it really matters here.
+resharper_access_to_static_member_via_derived_type_highlighting=none
+resharper_unity_object_null_comparison=none
 
 
 # CA1002: Do not expose generic lists

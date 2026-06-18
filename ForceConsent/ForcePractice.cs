@@ -8,6 +8,7 @@
 
         public override void Initialise()
         {
+            // TODO make sure that this isn't running on every frame, and only runs when the popup is visible.
             // Can only go to practice mode if we're in preparation mode
             RequireSingletonForUpdate<SIsNightTime>();
             _popupQuery = GetEntityQuery(typeof(StartPracticePopup.CRequest));

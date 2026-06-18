@@ -2,6 +2,7 @@
 {
     public static class LoggingUtils
     {
+        // TODO undo these changes
         public static void LogInfo(string _log)
         {
             string formatted = DateTime.Now.ToString("HH:mm:ss.fffffff");

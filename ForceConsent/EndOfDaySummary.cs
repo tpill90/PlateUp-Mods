@@ -11,7 +11,7 @@
     {
         public override void Initialise()
         {
-            // Only runs if the popup is currently on screen
+            // Only runs if the end of day summary popup is currently on screen
             var query = GetEntityQuery(new QueryHelper().All(typeof(CPopupEndDayData)));
             RequireForUpdate(query);
         }

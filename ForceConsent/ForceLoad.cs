@@ -3,38 +3,33 @@
     [UsedImplicitly]
     public class ForceLoad : GenericSystemBase, IModSystem
     {
-        int LocalID = 0;
-
         public override void Initialise()
         {
-            // Only runs when we're in the lobby
-            RequireSingletonForUpdate<SFranchiseMarker>();
+            // Only runs if the "return to restaurant" popup is currently on screen
+            var query = GetEntityQuery(new QueryHelper().All(typeof(CLocationPopupRequest)));
+            RequireForUpdate(query);
         }
 
         protected override void OnUpdate()
         {
-            //TODO figure out what this is for
-            if(LocalID == 0)
-            {
-                LocalID = GetLocalPlayerID();
-            }
-
-            ConsentElement[] consentElements = GameObject.FindObjectsOfType<ConsentElement>();
-
-            if(consentElements.Length < 2 )
+            var endOfDayPopup = GameObject.FindObjectOfType<GenericChoiceView>();
+            if (endOfDayPopup == null)
             {
                 return;
             }
 
+            var LocalID = GetLocalPlayerID();
+
             // TODO make sure at least 1 player consented before continuing
-            //TODO figure out what this is for
-            ConsentElement elem = consentElements[1];
-            if (elem.GetConsent(this.LocalID))
+            // Only force load a save if the host has consented
+
+            if (endOfDayPopup.Consent.GetConsent(LocalID))
             {
-                elem.SetAllConsents(true);
+                endOfDayPopup.Consent.SetAllConsents(true);
             }
         }
 
+        // TODO figure out exactly what this is doing
         public int GetLocalPlayerID()
         {
             int LocalID = 0;

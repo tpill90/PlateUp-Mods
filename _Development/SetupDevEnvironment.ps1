@@ -32,6 +32,7 @@ if(-Not($containsText))
     Add-Content "$plateupInstallDir\PlateUp\PlateUp_Data\boot.config" "player-connection-debug=1"
 }
 
-Write-Host -ForegroundColor Yellow "Debugging environment setup!"
+Write-Host -ForegroundColor Yellow "Debugging environment setup!  Closing in 5 seconds..."
+Start-Sleep -Seconds 5
 
 Pop-Location
